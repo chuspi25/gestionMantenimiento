@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskForm Integration Test</title>
+    <link rel="stylesheet" href="src/frontend/styles/main.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-header {
+            background: var(--surface-color);
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s ease;
+        }
+        
+        .test-button:hover {
+            background: var(--primary-hover);
+        }
+        
+        .test-button.secondary {
+            background: var(--secondary-color);
+        }
+        
+        .test-button.secondary:hover {
+            background: #475569;
+        }
+        
+        #task-form-container {
+            min-height: 400px;
+        }
+        
+        .test-output {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-top: 2rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>TaskForm Component Integration Test</h1>
+            <p>Esta página permite probar el componente TaskForm en modo creación y edición.</p>
+        </div>
+        
+        <div class="test-buttons">
+            <button id="test-create" class="test-button">Probar Modo Creación</button>
+            <button id="test-edit" class="test-button secondary">Probar Modo Edición</button>
+            <button id="clear-form" class="test-button secondary">Limpiar Formulario</button>
+        </div>
+        
+        <div id="task-form-container">
+            <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                Haz clic en uno de los botones de arriba para probar el TaskForm
+            </div>
+        </div>
+        
+        <div class="test-output" id="test-output">
+            <strong>Log de eventos:</strong><br>
+            Página cargada - TaskForm Integration Test iniciado<br>
+        </div>
+    </div>
+
+    <script type="module">
+        // Mock del authManager para las pruebas
+        window.authManager = {
+            getToken: () => 'mock-token-for-testing',
+            getCurrentUser: () => ({
+                id: 'test-user-id',
+                name: 'Usuario de Prueba',
+                email: 'test@example.com',
+                role: 'supervisor'
+            }),
+            isAuthenticated: () => true
+        };
+
+        // Mock de fetch para simular respuestas de la API
+        const originalFetch = window.fetch;
+        window.fetch = async (url, options) => {
+            log(`API Call: ${options?.method || 'GET'} ${url}`);
+            
+            // Simular respuesta de usuarios
+            if (url.includes('/api/users')) {
+                return {
+                    ok: true,
+                    json: async () => ({
+                        success: true,
+                        users: [
+                            { id: 'user1', name: 'Juan Pérez', email: 'juan@example.com' },
+                            { id: 'user2', name: 'María García', email: 'maria@example.com' },
+                            { id: 'user3', name: 'Carlos López', email: 'carlos@example.com' }
+                        ]
+                    })
+                };
+            }
+            
+            // Simular respuesta de creación/edición de tarea
+            if (url.includes('/api/tasks')) {
+                const body = options?.body ? JSON.parse(options.body) : {};
+                const isEdit = options?.method === 'PUT';
+                
+                return {
+                    ok: true,
+                    json: async () => ({
+                        success: true,
+                        task: {
+                            id: isEdit ? 'existing-task-id' : 'new-task-id',
+                            ...body,
+                            createdAt: new Date().toISOString(),
+                            status: 'pending',
+                            createdBy: 'test-user-id'
+                        }
+                    })
+                };
+            }
+            
+            // Fallback al fetch original para otros casos
+            return originalFetch(url, options);
+        };
+
+        // Función para logging
+        function log(message) {
+            const output = document.getElementById('test-output');
+            const timestamp = new Date().toLocaleTimeString();
+            output.innerHTML += `[${timestamp}] ${message}<br>`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Importar TaskForm
+        import { TaskForm } from './dist/frontend/scripts/taskForm.js';
+
+        let currentTaskForm = null;
+
+        // Datos de tarea de ejemplo para modo edición
+        const sampleTask = {
+            id: 'sample-task-id',
+            title: 'Reparación de Motor Principal',
+            description: 'El motor principal presenta ruidos extraños y vibraciones. Se requiere inspección completa y posible reemplazo de rodamientos.',
+            type: 'mechanical',
+            priority: 'high',
+            location: 'Planta 1 - Sector A - Motor #3',
+            estimatedDuration: 180,
+            dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 días desde ahora
+            assignedTo: 'user2',
+            requiredTools: ['Llave inglesa', 'Multímetro', 'Lubricante industrial'],
+            status: 'pending',
+            createdAt: new Date(),
+            createdBy: 'test-user-id',
+            notes: [],
+            attachments: []
+        };
+
+        // Event listeners
+        document.getElementById('test-create').addEventListener('click', () => {
+            log('Iniciando modo creación...');
+            clearContainer();
+            
+            try {
+                currentTaskForm = new TaskForm('task-form-container', {
+                    onSave: (task) => {
+                        log(`✅ Tarea creada exitosamente: ${task.title}`);
+                        log(`Datos: ${JSON.stringify(task, null, 2)}`);
+                    },
+                    onCancel: () => {
+                        log('❌ Creación cancelada por el usuario');
+                        clearContainer();
+                    }
+                });
+                
+                currentTaskForm.setCreateMode();
+                log('TaskForm inicializado en modo creación');
+                
+            } catch (error) {
+                log(`❌ Error inicializando TaskForm: ${error.message}`);
+            }
+        });
+
+        document.getElementById('test-edit').addEventListener('click', () => {
+            log('Iniciando modo edición...');
+            clearContainer();
+            
+            try {
+                currentTaskForm = new TaskForm('task-form-container', {
+                    onSave: (task) => {
+                        log(`✅ Tarea editada exitosamente: ${task.title}`);
+                        log(`Datos: ${JSON.stringify(task, null, 2)}`);
+                    },
+                    onCancel: () => {
+                        log('❌ Edición cancelada por el usuario');
+                        clearContainer();
+                    }
+                });
+                
+                currentTaskForm.setEditMode(sampleTask);
+                log('TaskForm inicializado en modo edición con datos de ejemplo');
+                
+            } catch (error) {
+                log(`❌ Error inicializando TaskForm: ${error.message}`);
+            }
+        });
+
+        document.getElementById('clear-form').addEventListener('click', () => {
+            log('Limpiando formulario...');
+            clearContainer();
+        });
+
+        function clearContainer() {
+            const container = document.getElementById('task-form-container');
+            container.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                    Haz clic en uno de los botones de arriba para probar el TaskForm
+                </div>
+            `;
+            currentTaskForm = null;
+        }
+
+        log('TaskForm Integration Test listo para usar');
+    </script>
+</body>
+</html>

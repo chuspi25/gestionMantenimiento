@@ -1,0 +1,54 @@
+{
+  "name": "maintenance-app",
+  "version": "1.0.0",
+  "description": "Sistema web responsivo para la gestión de operaciones de mantenimiento eléctrico y mecánico",
+  "main": "dist/backend/server.js",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "tsc -p tsconfig.backend.json",
+    "build:frontend": "tsc -p tsconfig.frontend.json",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "tsx watch src/backend/server.ts",
+    "dev:frontend": "live-server src/frontend --port=3001",
+    "start": "node dist/backend/server.js",
+    "db:init": "tsx src/backend/scripts/init-db.ts",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "vitest run tests/backend",
+    "test:frontend": "vitest run tests/frontend",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "maintenance",
+    "management",
+    "typescript",
+    "hono",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@hono/node-server": "^1.12.2",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "hono": "^4.6.3",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.7.4",
+    "@types/pg": "^8.11.10",
+    "@types/uuid": "^10.0.0",
+    "@vitest/coverage-v8": "^2.1.1",
+    "concurrently": "^9.0.1",
+    "fast-check": "^3.22.0",
+    "jsdom": "^27.3.0",
+    "live-server": "^1.2.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}

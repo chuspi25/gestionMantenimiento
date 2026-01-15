@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "noEmit": false,
+    "outDir": "./src/frontend/scripts",
+    "rootDir": "./src/frontend/scripts",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"]
+  },
+  "include": [
+    "src/frontend/scripts/**/*.ts"
+  ],
+  "exclude": [
+    "src/backend/**/*",
+    "tests/**/*"
+  ]
+}

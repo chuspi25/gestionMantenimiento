@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Auth Flow</title>
+</head>
+<body>
+    <h1>Testing Authentication Flow</h1>
+    <div id="status"></div>
+    
+    <script>
+        async function testAuthFlow() {
+            const statusDiv = document.getElementById('status');
+            
+            try {
+                // Test login
+                statusDiv.innerHTML += '<p>Testing login...</p>';
+                
+                const loginResponse = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'jesuspichastor@hotmail.com',
+                        password: 'Activa2025'
+                    })
+                });
+                
+                const loginData = await loginResponse.json();
+                statusDiv.innerHTML += `<p>Login response: ${JSON.stringify(loginData)}</p>`;
+                
+                if (loginData.success) {
+                    const token = loginData.data.token;
+                    statusDiv.innerHTML += '<p>Login successful, testing data endpoints...</p>';
+                    
+                    // Test dashboard endpoint
+                    const dashboardResponse = await fetch('/api/dashboard', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const dashboardData = await dashboardResponse.json();
+                    statusDiv.innerHTML += `<p>Dashboard response: ${JSON.stringify(dashboardData)}</p>`;
+                    
+                    // Test tasks endpoint
+                    const tasksResponse = await fetch('/api/tasks', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const tasksData = await tasksResponse.json();
+                    statusDiv.innerHTML += `<p>Tasks response: ${JSON.stringify(tasksData)}</p>`;
+                    
+                    // Test users endpoint
+                    const usersResponse = await fetch('/api/users', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const usersData = await usersResponse.json();
+                    statusDiv.innerHTML += `<p>Users response: ${JSON.stringify(usersData)}</p>`;
+                }
+                
+            } catch (error) {
+                statusDiv.innerHTML += `<p>Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Run test when page loads
+        window.addEventListener('load', testAuthFlow);
+    </script>
+</body>
+</html>

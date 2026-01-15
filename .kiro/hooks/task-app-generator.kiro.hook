@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "name": "Task Management App Generator",
+  "description": "Generates a complete task management application with login, user roles (admin, supervisor, user), main menu with task creation, task assignment, advanced editing, reports, user management, and section management features",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "*.js",
+      "*.jsx",
+      "*.ts",
+      "*.tsx",
+      "*.html",
+      "*.css",
+      "*.json",
+      "package.json"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Create a complete task management application based on the Spanish requirements. The app should include:\n\n1. Login screen for authentication\n2. User roles: Administrator, Supervisor, and regular User\n3. Main menu with buttons for:\n   - Crear tarea (Create task) - form with name, priority, section, description, document upload (photo/PDF)\n   - Realizar tarea (Perform task) - shows assigned tasks and unassigned tasks lists\n   - Edición avanzada (Advanced editing) - admin/supervisor only, filter by priority/section\n   - Informes (Reports) - admin/supervisor can download PDF reports\n   - Gestión de usuarios (User management) - admin/supervisor can create/modify users\n   - Gestión de secciones (Section management) - admin/supervisor can create/modify sections\n\n4. Task assignment logic: only admin/supervisor can assign tasks, users get auto-assigned when they modify tasks\n5. Role-based access control throughout the application\n\nGenerate the appropriate file structure and implement the functionality based on the file type being created."
+  }
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskDetail Integration Test</title>
+    <link rel="stylesheet" href="src/frontend/styles/main.css">
+</head>
+<body>
+    <div class="main-app">
+        <div class="app-header">
+            <div class="header-content">
+                <h1>TaskDetail Integration Test</h1>
+                <div class="user-menu">
+                    <span class="user-name">Test User</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="page-header">
+                <h2>Task Detail Test</h2>
+                <div class="page-actions">
+                    <button id="show-sample-task" class="primary-button">
+                        Show Sample Task
+                    </button>
+                    <button id="show-task-list" class="secondary-button">
+                        Back to Task List
+                    </button>
+                </div>
+            </div>
+            
+            <div id="task-list-container" class="tasks-content">
+                <div class="task-list-component">
+                    <div class="task-list-container">
+                        <div class="task-list-content view-grid">
+                            <div class="task-card priority-high">
+                                <div class="task-card-header">
+                                    <div class="priority-badge priority-high">Alta</div>
+                                    <div class="status-badge status-pending">Pendiente</div>
+                                </div>
+                                <div class="task-card-content">
+                                    <h3 class="task-title">Reparar Sistema Eléctrico</h3>
+                                    <p class="task-description">Revisar y reparar el sistema eléctrico del edificio principal. Se han reportado cortes intermitentes en el segundo piso.</p>
+                                    <div class="task-meta">
+                                        <div class="task-meta-item">
+                                            <span class="meta-label">Tipo</span>
+                                            <span class="meta-value type-electrical">Eléctrico</span>
+                                        </div>
+                                        <div class="task-meta-item">
+                                            <span class="meta-label">Ubicación</span>
+                                            <span class="meta-value">Edificio Principal - Piso 2</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="task-card-actions">
+                                    <button class="task-action-button view-button" onclick="showSampleTaskDetail()">
+                                        Ver Detalles
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="task-detail-container" class="tasks-content" style="display: none;">
+                <!-- TaskDetail component will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { TaskDetail } from './dist/frontend/scripts/taskDetail.js';
+        
+        // Sample task data
+        const sampleTask = {
+            id: 'task-001',
+            title: 'Reparar Sistema Eléctrico',
+            description: 'Revisar y reparar el sistema eléctrico del edificio principal. Se han reportado cortes intermitentes en el segundo piso que afectan las operaciones diarias.',
+            type: 'electrical',
+            priority: 'high',
+            status: 'pending',
+            location: 'Edificio Principal - Piso 2',
+            estimatedDuration: 180,
+            dueDate: '2025-12-26T10:00:00Z',
+            createdAt: '2025-12-24T08:00:00Z',
+            assignedTo: 'user-123',
+            createdBy: 'supervisor-456',
+            requiredTools: ['Multímetro', 'Destornilladores', 'Alicates', 'Tester de voltaje'],
+            notes: [
+                {
+                    id: 'note-001',
+                    content: 'Se ha identificado que el problema está en el panel eléctrico del segundo piso. Necesitamos revisar los breakers.',
+                    createdAt: '2025-12-24T09:30:00Z',
+                    createdBy: 'supervisor-456'
+                },
+                {
+                    id: 'note-002',
+                    content: 'Confirmado que el breaker principal está funcionando correctamente. El problema parece estar en los circuitos secundarios.',
+                    createdAt: '2025-12-24T11:15:00Z',
+                    createdBy: 'technician-789'
+                }
+            ],
+            attachments: [
+                {
+                    id: 'att-001',
+                    fileName: 'diagrama-electrico.pdf',
+                    fileUrl: '#',
+                    fileType: 'application/pdf',
+                    uploadedAt: '2025-12-24T08:30:00Z',
+                    uploadedBy: 'supervisor-456'
+                },
+                {
+                    id: 'att-002',
+                    fileName: 'foto-panel.jpg',
+                    fileUrl: '#',
+                    fileType: 'image/jpeg',
+                    uploadedAt: '2025-12-24T09:45:00Z',
+                    uploadedBy: 'technician-789'
+                }
+            ]
+        };
+        
+        let taskDetail = null;
+        
+        // Initialize TaskDetail component
+        function initializeTaskDetail() {
+            if (!taskDetail) {
+                taskDetail = new TaskDetail('task-detail-container', {
+                    onClose: hideTaskDetail,
+                    onEdit: (task) => alert(`Edit task: ${task.title}`),
+                    onStatusChange: (task) => alert(`Change status for: ${task.title}`)
+                });
+            }
+        }
+        
+        // Show sample task detail
+        window.showSampleTaskDetail = function() {
+            const taskListContainer = document.getElementById('task-list-container');
+            const taskDetailContainer = document.getElementById('task-detail-container');
+            
+            // Hide task list
+            taskListContainer.style.display = 'none';
+            
+            // Show task detail
+            taskDetailContainer.style.display = 'block';
+            
+            // Initialize and show task
+            initializeTaskDetail();
+            taskDetail.showTask(sampleTask);
+        };
+        
+        // Hide task detail
+        function hideTaskDetail() {
+            const taskListContainer = document.getElementById('task-list-container');
+            const taskDetailContainer = document.getElementById('task-detail-container');
+            
+            // Show task list
+            taskListContainer.style.display = 'block';
+            
+            // Hide task detail
+            taskDetailContainer.style.display = 'none';
+        }
+        
+        // Event listeners
+        document.getElementById('show-sample-task').addEventListener('click', showSampleTaskDetail);
+        document.getElementById('show-task-list').addEventListener('click', hideTaskDetail);
+        
+        console.log('TaskDetail Integration Test initialized');
+    </script>
+</body>
+</html>

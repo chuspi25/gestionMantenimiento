@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Mantenimiento</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Form - Initially visible -->
+        <div id="login-container" class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Sistema de Gestión de Mantenimiento</h1>
+                    <p>Inicia sesión para continuar</p>
+                </div>
+                
+                <form id="login-form" class="login-form" novalidate>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required 
+                            autocomplete="email"
+                            aria-describedby="email-error"
+                        >
+                        <div id="email-error" class="error-message" role="alert"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <div class="password-input-container">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required 
+                                autocomplete="current-password"
+                                aria-describedby="password-error"
+                            >
+                            <button 
+                                type="button" 
+                                id="toggle-password" 
+                                class="toggle-password"
+                                aria-label="Mostrar/ocultar contraseña"
+                            >
+                                <span class="toggle-password-icon">👁️</span>
+                            </button>
+                        </div>
+                        <div id="password-error" class="error-message" role="alert"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="remember-me" name="rememberMe">
+                            <span class="checkbox-custom"></span>
+                            Recordar sesión
+                        </label>
+                    </div>
+                    
+                    <button type="submit" id="login-button" class="login-button">
+                        <span class="button-text">Iniciar Sesión</span>
+                        <span class="button-spinner" style="display: none;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+                    
+                    <div id="login-error" class="error-message general-error" role="alert"></div>
+                </form>
+                
+                <div class="login-footer">
+                    <a href="#" id="forgot-password">¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Application - Initially hidden -->
+        <div id="main-app" class="main-app" style="display: none;">
+            <header class="app-header">
+                <div class="header-content">
+                    <h1>Sistema de Gestión de Mantenimiento</h1>
+                    <div class="user-menu">
+                        <span id="user-name" class="user-name"></span>
+                        <button id="logout-button" class="logout-button">Cerrar Sesión</button>
+                    </div>
+                </div>
+                <nav id="navigation" class="main-navigation"></nav>
+            </header>
+            <main id="main-content" class="main-content">
+                <!-- El contenido se cargará dinámicamente aquí -->
+            </main>
+        </div>
+    </div>
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>
