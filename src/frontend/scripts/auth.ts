@@ -88,11 +88,13 @@ export class AuthManager {
   /**
    * Programar renovación automática del token
    */
-  private scheduleTokenRefresh(delay: number): void {
+  private scheduleTokenRefresh(_delay: number): void {
     if (this.refreshTimer) {
       clearTimeout(this.refreshTimer);
     }
     
+    // Deshabilitado temporalmente - el sistema no usa refresh tokens actualmente
+    /*
     this.refreshTimer = window.setTimeout(async () => {
       try {
         await this.refreshToken();
@@ -101,6 +103,7 @@ export class AuthManager {
         this.logout();
       }
     }, delay);
+    */
   }
 
   /**
@@ -142,7 +145,22 @@ export class AuthManager {
         body: JSON.stringify({ email, password, rememberMe }),
       });
 
-      const data: ApiResponse<LoginResponse> = await response.json();
+      // Obtener el texto de la respuesta primero
+      const responseText = await response.text();
+      
+      // Verificar si la respuesta está vacía
+      if (!responseText || responseText.trim() === '') {
+        throw new Error('El servidor devolvió una respuesta vacía. Verifica que el servidor esté corriendo correctamente.');
+      }
+
+      // Intentar parsear como JSON
+      let data: ApiResponse<LoginResponse>;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Error parseando respuesta:', responseText);
+        throw new Error(`Respuesta del servidor no es JSON válido: ${responseText.substring(0, 100)}`);
+      }
 
       if (!response.ok) {
         throw new Error(data.message || 'Error en el login');

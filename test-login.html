@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Diagnóstico de Login</h1>
+    
+    <!-- Test 1: Verificar servidor -->
+    <div class="test-section">
+        <h2>Test 1: Verificar Servidor</h2>
+        <button onclick="testServer()">Probar Conexión al Servidor</button>
+        <div id="serverResult" class="result" style="display:none;"></div>
+    </div>
+    
+    <!-- Test 2: Verificar base de datos -->
+    <div class="test-section">
+        <h2>Test 2: Verificar Health Check</h2>
+        <button onclick="testHealth()">Probar Health Check</button>
+        <div id="healthResult" class="result" style="display:none;"></div>
+    </div>
+    
+    <!-- Test 3: Login -->
+    <div class="test-section">
+        <h2>Test 3: Probar Login</h2>
+        <form id="loginForm" onsubmit="testLogin(event)">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required value="admin@mantenimiento.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" required value="admin123">
+            </div>
+            
+            <button type="submit">Probar Login</button>
+        </form>
+        <div id="loginResult" class="result" style="display:none;"></div>
+    </div>
+    
+    <script>
+        const API_URL = 'http://localhost:3000';
+        
+        async function testServer() {
+            const resultDiv = document.getElementById('serverResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '⏳ Probando conexión al servidor...';
+            
+            try {
+                const response = await fetch(`${API_URL}/`, {
+                    method: 'GET'
+                });
+                
+                const text = await response.text();
+                console.log('Server response text:', text);
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    throw new Error(`Respuesta no es JSON válido: ${text}`);
+                }
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Servidor conectado exitosamente\n\nStatus: ${response.status}\n\nRespuesta:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Error del servidor\n\nStatus: ${response.status}\n\nRespuesta:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Error de conexión\n\n${error.message}\n\n¿Está el servidor corriendo en ${API_URL}?`;
+            }
+        }
+        
+        async function testHealth() {
+            const resultDiv = document.getElementById('healthResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '⏳ Probando health check...';
+            
+            try {
+                const response = await fetch(`${API_URL}/health`, {
+                    method: 'GET'
+                });
+                
+                const text = await response.text();
+                console.log('Health response text:', text);
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    throw new Error(`Respuesta no es JSON válido: ${text}`);
+                }
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Health check exitoso\n\nStatus: ${response.status}\n\nRespuesta:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Health check falló\n\nStatus: ${response.status}\n\nRespuesta:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Error en health check\n\n${error.message}`;
+            }
+        }
+        
+        async function testLogin(event) {
+            event.preventDefault();
+            
+            const resultDiv = document.getElementById('loginResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '⏳ Intentando login...';
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const loginData = {
+                email: email,
+                password: password,
+                rememberMe: false
+            };
+            
+            console.log('Enviando login:', loginData);
+            
+            try {
+                const response = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData)
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                const text = await response.text();
+                console.log('Response text:', text);
+                
+                let data;
+                try {
+                    data = text ? JSON.parse(text) : null;
+                } catch (e) {
+                    throw new Error(`Respuesta no es JSON válido: ${text}`);
+                }
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Login exitoso\n\nStatus: ${response.status}\n\nRespuesta:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Login falló\n\nStatus: ${response.status}\n\nRespuesta:\n${data ? JSON.stringify(data, null, 2) : 'Sin respuesta'}`;
+                }
+            } catch (error) {
+                console.error('Error completo:', error);
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Error en login\n\n${error.message}\n\nStack:\n${error.stack}`;
+            }
+        }
+    </script>
+</body>
+</html>

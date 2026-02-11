@@ -5,20 +5,20 @@
     box-sizing: border-box;
 }
 
-/* Variables CSS */
+/* Variables CSS - Nueva paleta de colores */
 :root {
-    --primary-color: #2563eb;
-    --primary-hover: #1d4ed8;
-    --secondary-color: #64748b;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
+    --primary-color: #2EC4B6;
+    --primary-hover: #26a69a;
+    --secondary-color: #FF9F1C;
+    --success-color: #2EC4B6;
+    --warning-color: #FFBF69;
     --error-color: #ef4444;
-    --background-color: #a3acb6;
-    --surface-color: #ffffff;
+    --background-color: #CBF3F0;
+    --surface-color: #FFFFFF;
     --text-primary: #1e293b;
     --text-secondary: #64748b;
-    --border-color: #e2e8f0;
-    --border-focus: #2563eb;
+    --border-color: #CBF3F0;
+    --border-focus: #2EC4B6;
     --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --radius: 0.5rem;
@@ -40,7 +40,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 1rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2EC4B6 0%, #FF9F1C 100%);
 }
 
 .login-card {
@@ -390,7 +390,7 @@ body {
     border-radius: var(--radius);
     padding: 1.5rem;
     box-shadow: var(--shadow);
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid var(--secondary-color);
     transition: transform 0.2s ease;
 }
 
@@ -1244,7 +1244,7 @@ body {
 }
 
 .task-card.priority-high {
-  border-left: 4px solid var(--warning-color);
+  border-left: 4px solid var(--secondary-color);
 }
 
 .task-card.priority-medium {
@@ -1278,13 +1278,13 @@ body {
 }
 
 .priority-badge.priority-high {
-  background-color: #fef3c7;
-  color: #d97706;
+  background-color: #fff4e6;
+  color: #FF9F1C;
 }
 
 .priority-badge.priority-medium {
-  background-color: #dbeafe;
-  color: #2563eb;
+  background-color: #e6fffe;
+  color: #2EC4B6;
 }
 
 .priority-badge.priority-low {
@@ -1298,8 +1298,8 @@ body {
 }
 
 .status-badge.status-in_progress {
-  background-color: #dbeafe;
-  color: #2563eb;
+  background-color: #e6fffe;
+  color: #2EC4B6;
 }
 
 .status-badge.status-completed {
@@ -1367,11 +1367,11 @@ body {
 }
 
 .meta-value.type-electrical {
-  color: #2563eb;
+  color: #2EC4B6;
 }
 
 .meta-value.type-mechanical {
-  color: #059669;
+  color: #FF9F1C;
 }
 
 .task-tools {
@@ -1737,13 +1737,13 @@ body {
 }
 
 .type-badge.type-electrical {
-  background-color: #dbeafe;
-  color: #2563eb;
+  background-color: #e6fffe;
+  color: #2EC4B6;
 }
 
 .type-badge.type-mechanical {
-  background-color: #d1fae5;
-  color: #059669;
+  background-color: #fff4e6;
+  color: #FF9F1C;
 }
 
 .overdue-badge {
