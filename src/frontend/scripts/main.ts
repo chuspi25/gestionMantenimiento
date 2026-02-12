@@ -233,8 +233,10 @@ async function handleLogout(): Promise<void> {
  * Manejar evento de login exitoso
  */
 function handleUserLogin(event: Event): void {
+    console.log('🎉 Evento user-login recibido');
     const customEvent = event as CustomEvent<User>;
     const user = customEvent.detail;
+    console.log('👤 Usuario del evento:', user);
     showMainApp(user);
 }
 

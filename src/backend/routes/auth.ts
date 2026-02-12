@@ -65,7 +65,10 @@ authRoutes.post('/login', async (c) => {
           error.message.includes('Cuenta desactivada') ||
           error.message.includes('Formato de email inválido') ||
           error.message.includes('contraseña es requerida')) {
-        throw new HTTPException(401, { message: error.message });
+        return c.json({
+          success: false,
+          message: error.message
+        }, 401);
       }
     }
 
@@ -75,7 +78,10 @@ authRoutes.post('/login', async (c) => {
         ip
       }
     });
-    throw new HTTPException(500, { message: 'Error interno del servidor' });
+    return c.json({
+      success: false,
+      message: 'Error interno del servidor'
+    }, 500);
   }
 });
 
@@ -142,7 +148,10 @@ authRoutes.post('/register', async (c) => {
           error.message.includes('Formato de email inválido') ||
           error.message.includes('nombre es requerido') ||
           error.message.includes('contraseña debe tener')) {
-        throw new HTTPException(400, { message: error.message });
+        return c.json({
+          success: false,
+          message: error.message
+        }, 400);
       }
     }
 
@@ -152,7 +161,10 @@ authRoutes.post('/register', async (c) => {
         ip
       }
     });
-    throw new HTTPException(500, { message: 'Error interno del servidor' });
+    return c.json({
+      success: false,
+      message: 'Error interno del servidor'
+    }, 500);
   }
 });
 
@@ -196,7 +208,10 @@ authRoutes.post('/refresh', async (c) => {
       if (error.message.includes('Token inválido') || 
           error.message.includes('Usuario no encontrado') ||
           error.message.includes('Cuenta desactivada')) {
-        throw new HTTPException(401, { message: error.message });
+        return c.json({
+          success: false,
+          message: error.message
+        }, 401);
       }
     }
 
@@ -206,7 +221,10 @@ authRoutes.post('/refresh', async (c) => {
         ip
       }
     });
-    throw new HTTPException(500, { message: 'Error interno del servidor' });
+    return c.json({
+      success: false,
+      message: 'Error interno del servidor'
+    }, 500);
   }
 });
 

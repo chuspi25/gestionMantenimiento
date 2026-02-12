@@ -198,8 +198,10 @@ async function handleLogout() {
  * Manejar evento de login exitoso
  */
 function handleUserLogin(event) {
+    console.log('🎉 Evento user-login recibido');
     const customEvent = event;
     const user = customEvent.detail;
+    console.log('👤 Usuario del evento:', user);
     showMainApp(user);
 }
 /**
