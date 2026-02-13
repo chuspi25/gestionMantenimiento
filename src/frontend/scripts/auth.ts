@@ -1,7 +1,5 @@
 import { User, LoginForm, ApiResponse, validateEmail, validateRequired, validatePassword } from './types.js';
-
-// Configuración de la API
-const API_BASE_URL = '/api';
+import { API_BASE_URL } from './config.js';
 
 // Tipos específicos para autenticación
 export interface LoginResponse {

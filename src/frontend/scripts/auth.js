@@ -1,6 +1,5 @@
 import { validateEmail, validateRequired, validatePassword } from './types.js';
-// Configuración de la API
-const API_BASE_URL = '/api';
+import { API_BASE_URL } from './config.js';
 /**
  * Clase para manejar la autenticación del frontend
  */
