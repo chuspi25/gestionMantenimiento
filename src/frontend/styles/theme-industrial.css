@@ -5,12 +5,12 @@
 
 :root {
     /* Colores principales - Industrial */
-    --primary-blue: #1e3a8a;
-    --primary-blue-light: #3b82f6;
-    --primary-blue-dark: #1e40af;
-    --accent-orange: #ea580c;
+    --primary-blue: #3b82f6;
+    --primary-blue-light: #60a5fa;
+    --primary-blue-dark: #2563eb;
+    --accent-orange: #f97316;
     --accent-orange-light: #fb923c;
-    --accent-orange-dark: #c2410c;
+    --accent-orange-dark: #ea580c;
     
     /* Colores de estado */
     --success-green: #16a34a;
@@ -333,7 +333,7 @@
 
 /* Header de la aplicación */
 .app-header {
-    background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
     border-bottom: 3px solid var(--accent-orange);
     box-shadow: var(--shadow-lg);
 }
@@ -352,13 +352,13 @@
 
 /* Navegación industrial */
 .main-navigation {
-    background: var(--gray-800);
-    border-top: 1px solid var(--gray-700);
+    background: #2563eb;
+    border-top: 1px solid #1e40af;
     padding: 0 2rem;
 }
 
 .nav-link {
-    color: var(--gray-300);
+    color: #e0e7ff;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -370,13 +370,13 @@
 }
 
 .nav-link:hover {
-    background: var(--gray-700);
+    background: #1e40af;
     color: white;
     border-bottom-color: var(--accent-orange-light);
 }
 
 .nav-link.active {
-    background: var(--gray-900);
+    background: #1e3a8a;
     color: white;
     border-bottom-color: var(--accent-orange);
 }
@@ -468,7 +468,7 @@
 
 /* Login container industrial */
 .login-container {
-    background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 50%, var(--primary-blue-dark) 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1e40af 100%);
     position: relative;
     overflow: hidden;
 }
@@ -481,7 +481,7 @@
     width: 100%;
     height: 100%;
     background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
-    opacity: 0.1;
+    opacity: 0.15;
     animation: pulse 4s ease-in-out infinite;
 }
 
