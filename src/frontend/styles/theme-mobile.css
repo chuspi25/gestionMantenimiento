@@ -1,0 +1,588 @@
+/* =====================================================
+   TEMA MOBILE-FIRST - OPTIMIZADO PARA DISPOSITIVOS MÓVILES
+   Enfoque: Agilidad, táctil, rendimiento
+   ===================================================== */
+
+/* Optimizaciones de rendimiento */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+/* Tamaños táctiles mínimos (44px x 44px según Apple HIG) */
+:root {
+    --touch-target-min: 44px;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+}
+
+/* ===================================================== 
+   BOTONES OPTIMIZADOS PARA MÓVIL
+   ===================================================== */
+
+.primary-button,
+.login-button,
+.action-button,
+.secondary-button,
+.export-button,
+.task-action-button {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    padding: 0.875rem 1.25rem;
+    font-size: 0.938rem;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    /* Optimización táctil */
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Botones de ancho completo en móvil */
+@media (max-width: 768px) {
+    .primary-button,
+    .secondary-button,
+    .login-button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .action-buttons,
+    .form-actions,
+    .page-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+    }
+    
+    .action-buttons .action-button,
+    .form-actions button,
+    .page-actions button {
+        width: 100%;
+    }
+}
+
+/* Botones flotantes para acciones rápidas */
+.fab-button {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.fab-button:active {
+    transform: scale(0.95);
+}
+
+.fab-button.secondary {
+    background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-dark) 100%);
+    bottom: 5rem;
+}
+
+/* ===================================================== 
+   NAVEGACIÓN MÓVIL (BOTTOM TAB BAR)
+   ===================================================== */
+
+@media (max-width: 768px) {
+    .main-navigation {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 1px solid var(--gray-200);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        padding: 0;
+        display: flex;
+        justify-content: space-around;
+        z-index: 999;
+        height: 60px;
+    }
+    
+    .nav-link {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+        padding: 0.5rem;
+        font-size: 0.688rem;
+        border-bottom: none;
+        border-top: 3px solid transparent;
+        color: var(--gray-500);
+        text-transform: none;
+        letter-spacing: 0;
+    }
+    
+    .nav-link:hover {
+        background: var(--gray-50);
+        color: var(--primary-blue);
+        border-top-color: transparent;
+    }
+    
+    .nav-link.active {
+        background: transparent;
+        color: var(--primary-blue);
+        border-top-color: var(--primary-blue);
+    }
+    
+    /* Iconos para navegación */
+    .nav-link::before {
+        content: attr(data-icon);
+        font-size: 1.25rem;
+        line-height: 1;
+    }
+    
+    /* Espacio para la navegación inferior */
+    .main-content {
+        padding-bottom: 80px;
+    }
+}
+
+/* ===================================================== 
+   HEADER COMPACTO PARA MÓVIL
+   ===================================================== */
+
+@media (max-width: 768px) {
+    .app-header {
+        position: sticky;
+        top: 0;
+        z-index: 998;
+    }
+    
+    .header-content {
+        padding: 0.75rem 1rem;
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .header-content h1 {
+        font-size: 1.125rem;
+        flex: 1;
+    }
+    
+    .user-menu {
+        gap: 0.5rem;
+    }
+    
+    .user-name {
+        display: none;
+    }
+    
+    .logout-button {
+        padding: 0.5rem;
+        min-width: var(--touch-target-min);
+        font-size: 0.813rem;
+    }
+}
+
+/* ===================================================== 
+   CARDS OPTIMIZADAS PARA MÓVIL
+   ===================================================== */
+
+@media (max-width: 768px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+    
+    .dashboard-card {
+        padding: 1rem;
+    }
+    
+    .card-number {
+        font-size: 1.75rem;
+    }
+    
+    .dashboard-card h4 {
+        font-size: 0.75rem;
+    }
+    
+    .card-description {
+        font-size: 0.75rem;
+    }
+    
+    /* Cards de tareas en lista vertical */
+    .task-list-content.view-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .task-card {
+        padding: 1rem;
+    }
+    
+    .task-title {
+        font-size: 1rem;
+    }
+    
+    .task-description {
+        font-size: 0.875rem;
+        -webkit-line-clamp: 2;
+    }
+    
+    .task-card-actions {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .task-card-actions::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .task-action-button {
+        flex-shrink: 0;
+        padding: 0.5rem 0.875rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* ===================================================== 
+   FORMULARIOS MÓVILES
+   ===================================================== */
+
+@media (max-width: 768px) {
+    .form-content {
+        padding: 1rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 16px; /* Evita zoom en iOS */
+        padding: 0.875rem;
+    }
+    
+    .form-group label {
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+    
+    /* Modal de formulario en pantalla completa */
+    .task-form-component,
+    .user-form-component {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+    
+    .task-form-header,
+    .user-form-header {
+        padding: 1rem;
+    }
+    
+    .task-form-header .form-title {
+        font-size: 1.125rem;
+    }
+}
+
+/* ===================================================== 
+   FILTROS Y BÚSQUEDA MÓVIL
+   ===================================================== */
+
+@media (max-width: 768px) {
+    .filters-section {
+        padding: 1rem;
+    }
+    
+    .filter-controls {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-select {
+        width: 100%;
+        font-size: 16px; /* Evita zoom en iOS */
+        padding: 0.75rem;
+    }
+    
+    .search-input {
+        font-size: 16px; /* Evita zoom en iOS */
+        padding: 0.875rem 2.5rem 0.875rem 0.875rem;
+    }
+    
+    .clear-filters-button {
+        width: 100%;
+    }
+}
+
+/* ===================================================== 
+   GESTOS TÁCTILES
+   ===================================================== */
+
+/* Swipe para eliminar (visual feedback) */
+.swipeable {
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.swipeable.swiping {
+    transform: translateX(-80px);
+}
+
+.swipe-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--error-red);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.swipeable.swiping .swipe-actions {
+    opacity: 1;
+}
+
+/* Pull to refresh indicator */
+.pull-to-refresh {
+    position: absolute;
+    top: -60px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-blue);
+    font-size: 0.875rem;
+    transition: transform 0.3s ease;
+}
+
+.pull-to-refresh.pulling {
+    transform: translateY(60px);
+}
+
+/* ===================================================== 
+   OPTIMIZACIONES DE RENDIMIENTO
+   ===================================================== */
+
+/* Usar transform en lugar de top/left para animaciones */
+.animated {
+    will-change: transform;
+}
+
+/* Reducir animaciones en dispositivos de bajo rendimiento */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===================================================== 
+   ACCESIBILIDAD TÁCTIL
+   ===================================================== */
+
+/* Aumentar área táctil sin cambiar apariencia visual */
+.touch-target {
+    position: relative;
+}
+
+.touch-target::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+}
+
+/* Feedback visual al tocar */
+.touchable {
+    position: relative;
+    overflow: hidden;
+}
+
+.touchable::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.touchable:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* ===================================================== 
+   MODO LANDSCAPE
+   ===================================================== */
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .main-navigation {
+        height: 50px;
+    }
+    
+    .nav-link {
+        font-size: 0.625rem;
+        padding: 0.25rem;
+    }
+    
+    .nav-link::before {
+        font-size: 1rem;
+    }
+    
+    .header-content {
+        padding: 0.5rem 1rem;
+    }
+    
+    .header-content h1 {
+        font-size: 1rem;
+    }
+}
+
+/* ===================================================== 
+   LOADING STATES OPTIMIZADOS
+   ===================================================== */
+
+.skeleton {
+    background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ===================================================== 
+   NOTIFICACIONES MÓVILES
+   ===================================================== */
+
+@media (max-width: 768px) {
+    .notification {
+        position: fixed;
+        top: auto;
+        bottom: 80px;
+        left: 1rem;
+        right: 1rem;
+        max-width: none;
+        border-radius: var(--radius-lg);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: slideUp 0.3s ease-out;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===================================================== 
+   ESPACIADO MÓVIL
+   ===================================================== */
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .page-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+    }
+    
+    .page-header h2 {
+        font-size: 1.25rem;
+    }
+    
+    .quick-actions {
+        padding: 1rem;
+    }
+    
+    .filters-section {
+        margin-bottom: 1rem;
+    }
+}
+
+/* ===================================================== 
+   MODO OSCURO PARA AHORRAR BATERÍA
+   ===================================================== */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --surface-color: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --background-color: #0f172a;
+        --border-color: #334155;
+    }
+    
+    .app-header {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    }
+    
+    .main-navigation {
+        background: #1e293b;
+        border-top-color: #334155;
+    }
+    
+    @media (max-width: 768px) {
+        .main-navigation {
+            background: #0f172a;
+        }
+        
+        .nav-link.active {
+            color: var(--primary-blue-light);
+            border-top-color: var(--primary-blue-light);
+        }
+    }
+}

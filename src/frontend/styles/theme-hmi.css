@@ -1,0 +1,20 @@
+/* =====================================================
+   TEMA HMI INDUSTRIAL - HUMAN MACHINE INTERFACE
+   Diseño tipo SCADA para control industrial
+   ===================================================== */
+
+:root {
+    /* Colores HMI Industrial */
+    --hmi-background: #1a1d29;
+    --hmi-surface: #252936;
+    --hmi-surface-light: #2d3142;
+    --hmi-border: #3d4152;
+    
+    /* Colores de señalización industrial */
+    --hmi-green: #00ff41;
+    --hmi-green-glow: rgba(0, 255, 65, 0.3);
+    --hmi-red: #ff0040;
+    --hmi-red-glow: rgba(255, 0, 64, 0.3);
+    --hmi-yellow: #ffea00;
+    --hmi-yellow-glow: rgba(255, 234, 0, 0.3);
+    --hmi-bl
