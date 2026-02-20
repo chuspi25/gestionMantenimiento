@@ -29,9 +29,10 @@ export class TaskList {
     /**
      * Inicializar el componente
      */
-    initialize() {
+    async initialize() {
         this.render();
         this.setupEventListeners();
+        // Cargar tareas sin esperar tanto al token
         this.loadTasks();
     }
     /**
@@ -255,6 +256,8 @@ export class TaskList {
      */
     async loadTasks() {
         console.log('🔄 TaskList: Iniciando carga de tareas...');
+        console.log('🔑 TaskList: Token actual:', authManager.getToken());
+        console.log('🔐 TaskList: AuthManager isAuthenticated:', authManager.isAuthenticated());
         this.setLoading(true);
         this.error = null;
         try {
