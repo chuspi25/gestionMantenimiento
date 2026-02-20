@@ -282,14 +282,20 @@ export class TaskList {
         this.error = null;
 
         try {
-            // Esperar a que el token esté disponible
+            // Esperar a que el token esté disponible (con timeout reducido)
             await this.waitForToken();
             
             const token = authManager.getToken();
             console.log('🔑 TaskList: Token disponible:', !!token);
             
             if (!token) {
-                throw new Error('Token de autenticación no disponible');
+                console.warn('⚠️ TaskList: No hay token, esperando un poco más...');
+                // Esperar un poco más y reintentar
+                await new Promise(resolve => setTimeout(resolve, 500));
+                const retryToken = authManager.getToken();
+                if (!retryToken) {
+                    throw new Error('Token de autenticación no disponible');
+                }
             }
 
             const response = await fetch('/api/tasks', {
