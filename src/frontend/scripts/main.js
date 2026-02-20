@@ -56,6 +56,8 @@ async function initializeApp() {
         setupRoleGuard();
         // Hacer roleGuard disponible globalmente para onclick handlers
         window.roleGuard = roleGuard;
+        // Marcar RoleGuard como listo
+        roleGuard.markReady();
         // Verificar estado de autenticación
         await checkAuthenticationState();
         console.log('✅ Aplicación inicializada correctamente');

@@ -69,6 +69,9 @@ async function initializeApp(): Promise<void> {
         // Hacer roleGuard disponible globalmente para onclick handlers
         (window as any).roleGuard = roleGuard;
         
+        // Marcar RoleGuard como listo
+        roleGuard.markReady();
+        
         // Verificar estado de autenticación
         await checkAuthenticationState();
         

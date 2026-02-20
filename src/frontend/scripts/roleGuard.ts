@@ -142,12 +142,28 @@ export const APP_ROUTES: RouteConfig[] = [
  */
 export class RoleGuard {
   private authManager: AuthManager;
-  private currentRoute: string = '/dashboard';
+  private currentRoute: string = '/tasks';
   private routeChangeListeners: Array<(route: string) => void> = [];
+  private isReady: boolean = false;
 
   constructor(authManager: AuthManager) {
     this.authManager = authManager;
     this.setupRouteHandling();
+  }
+
+  /**
+   * Marcar RoleGuard como listo
+   */
+  public markReady(): void {
+    this.isReady = true;
+    console.log('✅ RoleGuard: Listo para navegar');
+  }
+
+  /**
+   * Verificar si RoleGuard está listo
+   */
+  public isReadyToNavigate(): boolean {
+    return this.isReady;
   }
 
   /**
@@ -167,7 +183,13 @@ export class RoleGuard {
    * Manejar cambio de ruta
    */
   private handleRouteChange(): void {
-    const hash = window.location.hash.slice(1) || '/dashboard';
+    // Solo procesar si RoleGuard está listo
+    if (!this.isReady) {
+      console.log('⏳ RoleGuard: Esperando a estar listo...');
+      return;
+    }
+    
+    const hash = window.location.hash.slice(1) || '/tasks';
     this.navigateToRoute(hash);
   }
 
@@ -237,13 +259,13 @@ export class RoleGuard {
         return false;
       }
       
-      // Redirigir al dashboard si no hay fallback
-      if (routePath !== '/dashboard' && this.canAccessRoute('/dashboard')) {
-        this.navigateToRoute('/dashboard');
+      // Redirigir a tareas si no hay fallback
+      if (routePath !== '/tasks' && this.canAccessRoute('/tasks')) {
+        this.navigateToRoute('/tasks');
         return false;
       }
       
-      // Si no puede acceder ni al dashboard, mostrar error
+      // Si no puede acceder ni a tareas, mostrar error
       this.showAccessDeniedError();
       return false;
     }
