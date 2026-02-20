@@ -5,29 +5,12 @@
 export const translations = {
   // Navegación
   nav: {
-    dashboard: 'Panel de Control',
     tasks: 'Tareas',
     createTask: 'Crear Tarea',
     users: 'Usuarios',
     createUser: 'Crear Usuario',
     reports: 'Informes',
     settings: 'Configuración'
-  },
-  
-  // Dashboard
-  dashboard: {
-    title: 'Panel de Control',
-    totalTasks: 'Total de Tareas',
-    pendingTasks: 'Tareas Pendientes',
-    inProgressTasks: 'En Progreso',
-    completedTasks: 'Completadas',
-    overdueTask: 'Tareas Vencidas',
-    quickActions: 'Acciones Rápidas',
-    createNewTask: 'Crear Nueva Tarea',
-    viewAllTasks: 'Ver Todas las Tareas',
-    generateReport: 'Generar Informe',
-    refresh: 'Actualizar',
-    loading: 'Cargando...'
   },
   
   // Tareas

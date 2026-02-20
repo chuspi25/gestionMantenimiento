@@ -95,12 +95,6 @@ export interface RouteConfig {
  */
 export const APP_ROUTES: RouteConfig[] = [
   {
-    path: '/dashboard',
-    permission: 'canViewDashboard',
-    title: 'Dashboard',
-    description: 'Panel principal con resumen de actividades'
-  },
-  {
     path: '/tasks',
     permission: 'canViewTasks',
     title: 'Tareas',
@@ -116,7 +110,7 @@ export const APP_ROUTES: RouteConfig[] = [
   {
     path: '/users',
     permission: 'canViewUsers',
-    fallbackRoute: '/dashboard',
+    fallbackRoute: '/tasks',
     title: 'Usuarios',
     description: 'Gestión de usuarios del sistema'
   },
@@ -130,14 +124,14 @@ export const APP_ROUTES: RouteConfig[] = [
   {
     path: '/reports',
     permission: 'canViewReports',
-    fallbackRoute: '/dashboard',
+    fallbackRoute: '/tasks',
     title: 'Reportes',
     description: 'Visualización y generación de reportes'
   },
   {
     path: '/settings',
     permission: 'canViewSystemSettings',
-    fallbackRoute: '/dashboard',
+    fallbackRoute: '/tasks',
     title: 'Configuración',
     description: 'Configuración del sistema'
   }

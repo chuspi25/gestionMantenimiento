@@ -4,7 +4,6 @@ import { TaskList } from './taskList.js';
 import { TaskDetail } from './taskDetail.js';
 import { TaskForm } from './taskForm.js';
 import { TaskProgress } from './taskProgress.js';
-import { Dashboard } from './dashboard.js';
 import { ReportingInterface } from './reportingInterface.js';
 import { UserList } from './userList.js';
 import { UserForm } from './userForm.js';
@@ -25,7 +24,6 @@ let taskList: TaskList | null = null;
 let taskDetail: TaskDetail | null = null;
 let taskForm: TaskForm | null = null;
 let taskProgress: TaskProgress | null = null;
-// Dashboard and reporting instances available for future use
 let userList: UserList | null = null;
 let userForm: UserForm | null = null;
 let profileManager: ProfileManager | null = null;
@@ -380,9 +378,6 @@ function updateMainContent(route: string): void {
     
     // Cargar contenido basado en la ruta
     switch (route) {
-        case '/dashboard':
-            loadDashboardContent(mainContent, user);
-            break;
         case '/tasks':
             loadTasksContent(mainContent, user);
             break;
@@ -405,25 +400,11 @@ function updateMainContent(route: string): void {
             loadSettingsContent(mainContent, user);
             break;
         default:
-            loadDashboardContent(mainContent, user);
+            loadTasksContent(mainContent, user);
     }
     
     // Aplicar control de acceso a los nuevos elementos
     roleGuardUI.applyAccessControl();
-}
-
-/**
- * Cargar contenido del dashboard
- */
-function loadDashboardContent(container: HTMLElement, _user: User): void {
-    container.innerHTML = `
-        <div id="dashboard-container" class="dashboard-container">
-            <!-- El componente Dashboard se inicializará aquí -->
-        </div>
-    `;
-    
-    // Inicializar el componente Dashboard
-    initializeDashboard();
 }
 
 /**
@@ -569,27 +550,6 @@ function showSuccess(message: string): void {
 
 // Exportar funciones para uso en otros módulos
 export { authManager, showError, showSuccess, showTaskDetail, editTask, updateTaskStatus };
-
-/**
- * Inicializar el componente Dashboard
- */
-function initializeDashboard(): void {
-    console.log('🚀 Inicializando Dashboard...');
-    const dashboardContainer = document.getElementById('dashboard-container');
-    if (dashboardContainer) {
-        try {
-            const dashboard = new Dashboard('dashboard-container');
-            // Hacer disponible globalmente para el botón de reintentar
-            (window as any).dashboardInstance = dashboard;
-            console.log('✅ Dashboard inicializado correctamente');
-        } catch (error) {
-            console.error('❌ Error inicializando Dashboard:', error);
-            showError('Error inicializando el dashboard');
-        }
-    } else {
-        console.log('ℹ️ Container dashboard-container no encontrado, Dashboard no inicializado');
-    }
-}
 
 /**
  * Inicializar el componente ReportingInterface
