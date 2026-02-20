@@ -19,7 +19,6 @@ import {
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import taskRoutes from './routes/tasks.js';
-import dashboardRoutes from './routes/dashboard.js';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -50,7 +49,6 @@ app.get('/app', serveStatic({ path: './src/frontend/index.html' }));
 app.route('/api/auth', authRoutes);
 app.route('/api/users', userRoutes);
 app.route('/api/tasks', taskRoutes);
-app.route('/api/dashboard', dashboardRoutes);
 
 // Ruta de prueba
 app.get('/', (c) => {
@@ -62,7 +60,6 @@ app.get('/', (c) => {
             auth: '/api/auth',
             users: '/api/users',
             tasks: '/api/tasks',
-            dashboard: '/api/dashboard',
             health: '/health'
         }
     });
