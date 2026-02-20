@@ -299,15 +299,15 @@ function showMainApp(user) {
             hasToken: !!authManager.getToken(),
             hasUser: !!authManager.getCurrentUser()
         });
-        // Navegar a la ruta inicial (dashboard)
-        const success = roleGuard.navigateToRoute('/dashboard');
+        // Navegar a la ruta inicial (tareas)
+        const success = roleGuard.navigateToRoute('/tasks');
         if (!success) {
-            console.warn('⚠️ No se pudo navegar al dashboard, reintentando...');
+            console.warn('⚠️ No se pudo navegar a tareas, reintentando...');
             // Reintentar después de un momento
             setTimeout(() => {
-                const retrySuccess = roleGuard.navigateToRoute('/dashboard');
+                const retrySuccess = roleGuard.navigateToRoute('/tasks');
                 if (!retrySuccess) {
-                    console.error('❌ Fallo al navegar al dashboard después del reintento');
+                    console.error('❌ Fallo al navegar a tareas después del reintento');
                 }
             }, 500);
         }
