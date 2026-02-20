@@ -293,7 +293,7 @@ export class TaskList {
     /**
      * Esperar a que el token esté disponible
      */
-    async waitForToken(maxAttempts = 20) {
+    async waitForToken(maxAttempts = 10) {
         console.log('🔄 TaskList: Esperando token de autenticación...');
         for (let i = 0; i < maxAttempts; i++) {
             const token = authManager.getToken();
@@ -303,10 +303,10 @@ export class TaskList {
                 console.log('✅ TaskList: Token y autenticación confirmados');
                 return;
             }
-            await new Promise(resolve => setTimeout(resolve, 150));
+            await new Promise(resolve => setTimeout(resolve, 100));
         }
-        console.error('❌ TaskList: Timeout esperando token de autenticación');
-        throw new Error('Timeout esperando token de autenticación');
+        console.warn('⚠️ TaskList: Timeout esperando token, continuando con token actual');
+        // No lanzar error, continuar con lo que haya
     }
     /**
      * Aplicar filtros y ordenamiento
