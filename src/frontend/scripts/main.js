@@ -121,7 +121,7 @@ function setupEventListeners() {
 async function checkAuthenticationState() {
     console.log('🔍 Verificando estado de autenticación...');
     // Dar más tiempo al AuthManager para cargar datos almacenados
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 500));
     console.log('🔐 Estado AuthManager:', {
         isAuthenticated: authManager.isAuthenticated(),
         hasToken: !!authManager.getToken(),
